@@ -21,8 +21,10 @@ function Menu({
           getItemProps={getItemProps}
           item={item}
           index={index}
-          selectedItem={selectedItem}
-          highlightedIndex={highlightedIndex}
+          // selectedItem={selectedItem}
+          // highlightedIndex={highlightedIndex}
+          isSelected={selectedItem?.id === item.id}
+          isHighlighted={highlightedIndex === index}
         >
           {item.name}
         </ListItem>
@@ -31,17 +33,20 @@ function Menu({
   )
 }
 // 🐨 Memoize the Menu here using React.memo
+Menu = React.memo(Menu)
 
 function ListItem({
   getItemProps,
   item,
   index,
-  selectedItem,
-  highlightedIndex,
+  // selectedItem,
+  // highlightedIndex,
+  isSelected,
+  isHighlighted,
   ...props
 }) {
-  const isSelected = selectedItem?.id === item.id
-  const isHighlighted = highlightedIndex === index
+  // const isSelected = selectedItem?.id === item.id
+  // const isHighlighted = highlightedIndex === index
   return (
     <li
       {...getItemProps({
@@ -57,6 +62,18 @@ function ListItem({
   )
 }
 // 🐨 Memoize the ListItem here using React.memo
+ListItem = React.memo(ListItem)
+// EC1 commented out for EC2
+// ListItem = React.memo(ListItem, (prevProps, nextProps) => {
+//   if (
+//     nextProps.highlightedIndex === nextProps.index ||
+//     prevProps.index === prevProps.highlightedIndex
+//   ) {
+//     return false
+//   }
+//   return true
+// // Note Kent's solution beings with comparisons between the other elements changing ie prevProps.items !== nextProps.items etc
+// })
 
 function App() {
   const forceRerender = useForceRerender()
